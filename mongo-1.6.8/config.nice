@@ -1,0 +1,9 @@
+#! /bin/sh
+#
+# Created by configure
+
+'./configure' \
+'--enable-mongo' \
+'--with-php-config=php-config' \
+'--prefix=/usr/lib/php5/' \
+"$@"
