@@ -49,7 +49,15 @@ class DefaultController extends Controller
         $queryAllJobsExperience="//offers//offer//experiences/experience[noYrs>='3' and noYrs <= '5'] ";
 
 
+        $queryAllJobsNoExperience="//offers//offer/experiences[not(experience)]";
+
+        $queryAllJobsExperienceMore2Less5="//offers//offer/experiences[count(experience) >=2 and count(experience)<=5]";
+
+
         $queryAllJobs5Candidates="//offers/offer[nocandidates >= '5'] ";
+
+
+        $queryAllJobsRejected="//offers/offer[rejected = 'true'] ";
 
 
 
@@ -58,6 +66,9 @@ class DefaultController extends Controller
         $allJobsInHireRange = $xml->xpath($queryAllJobsHireRange);
         $allJobsInExperience = $xml->xpath($queryAllJobsExperience);
         $allJobs5Candidates = $xml->xpath($queryAllJobs5Candidates);
+        $allJobsNoExperience = $xml->xpath($queryAllJobsNoExperience);
+        $allJobsRejected = $xml->xpath($queryAllJobsRejected);
+        $allJobsExperienceLess2More5 = $xml->xpath($queryAllJobsExperienceMore2Less5);
 
 
 
@@ -82,6 +93,9 @@ class DefaultController extends Controller
         dump($allJobsInExperience);
         dump($allJobs5Candidates);
         dump($max);
+        dump($allJobsNoExperience);
+        dump($allJobsRejected);
+        dump($allJobsExperienceLess2More5);
 
         die();
 

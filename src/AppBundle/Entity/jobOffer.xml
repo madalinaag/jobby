@@ -78,6 +78,7 @@
         <rejected>false</rejected>
 
     </offer>
+
     <offer>
         <name>HR Manager</name>
         <domain>HR</domain>
@@ -93,6 +94,11 @@
             <skills>Comunication</skills>
             <title>Manager</title>
         </experience>
+        <experience>
+            <noYrs>2</noYrs>
+            <skills>Marketing</skills>
+            <title>Manager Marketing</title>
+        </experience>
     </experiences>
         <performance deadlines="1" conflicts="1" teamwork="1"></performance>
         <hiringRange>
@@ -100,6 +106,28 @@
             <max>1500</max>
         </hiringRange>
         <nocandidates>30</nocandidates>
+        <rejected>false</rejected>
+
+    </offer>
+
+    <offer>
+        <name>HR Manager</name>
+        <domain>HR</domain>
+        <company>
+            <name>Intel</name>
+            <location>Bucharest</location>
+        </company>
+        <type>Full Time</type>
+        <department>HR</department>
+    <experiences>
+
+    </experiences>
+        <performance deadlines="1" conflicts="1" teamwork="1"></performance>
+        <hiringRange>
+            <min>1000</min>
+            <max>1500</max>
+        </hiringRange>
+        <nocandidates>10</nocandidates>
         <rejected>false</rejected>
 
     </offer>
