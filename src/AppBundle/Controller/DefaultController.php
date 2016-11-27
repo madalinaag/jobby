@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
@@ -36,7 +37,7 @@ class DefaultController extends Controller
         $allJobsArray = $xmlJob->xpath($queryAllJobs);
 
         if (!empty($xmlUser->xpath($queryLogin))) {
-            return $this->render('jobs/list.html.twig', [
+            return $this->render('list.html.twig', [
                 'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
                 'jobs' => $allJobsArray,
             ]);
@@ -44,6 +45,41 @@ class DefaultController extends Controller
             $this->addFlash('error', 'Invalid username or password!');
             return $this->redirect($this->generateUrl('homepage'));
         }
+
+    }
+
+    public function searchAction(Request $request) {
+
+        $fileLocator = $this->container->get('file_locator');
+        $path = $fileLocator->locate('@AppBundle/Entity/jobOffer.xml');
+        $document = new \DOMDocument();
+        $document->loadXML(file_get_contents($path));
+        $xml = new \SimpleXMLElement($document->saveXML());
+
+
+        if ($request->query->get('domainRadio') == 'on') {
+            $search = 'domain';
+        }
+
+        if ($search == 'domain') {
+            $domain = $request->query->get('domain');
+            $query = "//offers/offer[domain='".$domain."']";
+        }
+
+        $jobs = $xml->xpath($query);
+
+        if (!empty($jobs)) {
+            return $this->render('list.html.twig', [
+                'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+                'jobs' => $jobs,
+            ]);
+        }
+            $this->addFlash('error', 'No jobs found!');
+            return $this->render('list.html.twig', [
+                'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+                'jobs' => '',
+            ]);
+
 
     }
 

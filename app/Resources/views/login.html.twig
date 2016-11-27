@@ -4,10 +4,6 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body  >
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('bundles/app/css/main.css') }}" type="text/css" media="all" />
-{% endblock %}
 
 {% if app.session.flashBag.has('notice') %}
 <div class="alert alert-warning fade in" role="alert">
