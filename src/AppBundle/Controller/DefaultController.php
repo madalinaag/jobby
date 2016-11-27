@@ -17,8 +17,8 @@ class DefaultController extends Controller
     }
     public function loginAction(Request $request)
     {
-        $username =   $request->query->get('username');
-        $password =   $request->query->get('password');
+        $username =   $request->request->get('username');
+        $password =   $request->request->get('password');
 
         $fileLocator = $this->container->get('file_locator');
         $pathUser = $fileLocator->locate('@AppBundle/Entity/user.xml');
