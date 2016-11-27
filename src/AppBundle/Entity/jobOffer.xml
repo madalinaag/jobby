@@ -15,12 +15,18 @@
             <skills>Python</skills>
             <title>Mid</title>
         </experience>
+            <experience>
+            <noYrs>2</noYrs>
+            <skills>Java</skills>
+            <title>Mid</title>
+        </experience>
         </experiences>
         <performance deadlines="1" conflicts="1" teamwork="1"></performance>
         <hiringRange>
             <min>1000</min>
             <max>2000</max>
         </hiringRange>
+        <monthlyrange></monthlyrange>
         <nocandidates>3</nocandidates>
         <rejected>true</rejected>
     </offer>
@@ -48,6 +54,7 @@
             <min>1500</min>
             <max>2500</max>
         </hiringRange>
+        <monthlyrange></monthlyrange>
         <nocandidates>10</nocandidates>
         <rejected>false</rejected>
 
@@ -74,10 +81,12 @@
             <min>600</min>
             <max>1500</max>
         </hiringRange>
+        <monthlyrange></monthlyrange>
         <nocandidates>35</nocandidates>
         <rejected>false</rejected>
 
     </offer>
+
     <offer>
         <name>HR Manager</name>
         <domain>HR</domain>
@@ -93,13 +102,102 @@
             <skills>Comunication</skills>
             <title>Manager</title>
         </experience>
+        <experience>
+            <noYrs>2</noYrs>
+            <skills>Marketing</skills>
+            <title>Manager Marketing</title>
+        </experience>
     </experiences>
         <performance deadlines="1" conflicts="1" teamwork="1"></performance>
         <hiringRange>
             <min>1000</min>
             <max>1500</max>
         </hiringRange>
+        <monthlyrange></monthlyrange>
         <nocandidates>30</nocandidates>
+        <rejected>false</rejected>
+
+    </offer>
+
+    <offer>
+        <name>HR Manager</name>
+        <domain>HR</domain>
+        <company>
+            <name>Intel</name>
+            <location>Bucharest</location>
+        </company>
+        <type>Full Time</type>
+        <department>HR</department>
+    <experiences>
+
+    </experiences>
+        <performance deadlines="1" conflicts="1" teamwork="1"></performance>
+        <hiringRange>
+            <min>1000</min>
+            <max>1500</max>
+        </hiringRange>
+        <monthlyrange></monthlyrange>
+        <nocandidates>10</nocandidates>
+        <rejected>false</rejected>
+
+    </offer>
+
+
+    <offer>
+        <name>Lead Android Developer</name>
+        <domain>IT</domain>
+        <company>
+            <name>IBM</name>
+            <location>Bucharest</location>
+        </company>
+        <type>Full Time</type>
+        <department>IT</department>
+
+    <experiences>
+        <experience>
+            <noYrs>1</noYrs>
+            <skills>Java</skills>
+            <title>Junior</title>
+        </experience>
+        <experience>
+            <noYrs>3</noYrs>
+            <skills>Java</skills>
+            <title>Middle</title>
+        </experience>
+        <experience>
+            <noYrs>5</noYrs>
+            <skills>Java</skills>
+            <title>Senior</title>
+        </experience>
+        <experience>
+            <noYrs>1</noYrs>
+            <skills>Android</skills>
+            <title>Junior</title>
+        </experience>
+        <experience>
+            <noYrs>3</noYrs>
+            <skills>Java</skills>
+            <title>Middle</title>
+        </experience>
+        <experience>
+            <noYrs>6</noYrs>
+            <skills>Android</skills>
+            <title>Senior</title>
+        </experience>
+        <experience>
+            <noYrs>1</noYrs>
+            <skills>Java</skills>
+            <title>Junior</title>
+        </experience>
+
+    </experiences>
+        <performance deadlines="1" conflicts="1" teamwork="1"></performance>
+        <hiringRange>
+            <min>10000</min>
+            <max>35000</max>
+        </hiringRange>
+        <monthlyrange></monthlyrange>
+        <nocandidates>100</nocandidates>
         <rejected>false</rejected>
 
     </offer>

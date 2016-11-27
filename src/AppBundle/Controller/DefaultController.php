@@ -98,12 +98,15 @@ class DefaultController extends Controller
 
         $queryAllJobsInDomain="//offers/offer[domain='IT']";
 
-
         $queryAllJobsHireRange="//offers//offer/hiringRange[min>='1000' and max <='3500'] ";
-
 
         $queryAllJobsExperience="//offers//offer//experiences/experience[noYrs>='3' and noYrs <= '5'] ";
 
+        $queryAllJobsNoExperience="//offers//offer/experiences[not(experience)]";
+
+        $queryAllJobsExperienceMore2Less5="//offers//offer/experiences[count(experience) >=2 and count(experience)<=5]";
+
+        $queryAllJobsRejected="//offers//offer[rejected = true]";
 
         $queryAllJobs5Candidates="//offers/offer[nocandidates >= '5'] ";
 
@@ -112,6 +115,9 @@ class DefaultController extends Controller
         $allJobsInHireRange = $xml->xpath($queryAllJobsHireRange);
         $allJobsInExperience = $xml->xpath($queryAllJobsExperience);
         $allJobs5Candidates = $xml->xpath($queryAllJobs5Candidates);
+        $allJobsNoExperience = $xml->xpath($queryAllJobsNoExperience);
+        $allJobsRejected = $xml->xpath($queryAllJobsRejected);
+        $allJobsExperienceLess2More5 = $xml->xpath($queryAllJobsExperienceMore2Less5);
 
         $max = 0;
         foreach($allJobsArray as $obj)
@@ -122,14 +128,57 @@ class DefaultController extends Controller
             }
         }
 
-        dump($allJobsArray);
+        dump($this->monthlyRange($allJobsArray));
         dump($allJobsInDomain);
         dump($allJobsInHireRange);
         dump($allJobsInExperience);
         dump($allJobs5Candidates);
         dump($max);
+        dump($allJobsNoExperience);
+        dump($allJobsRejected);
+        dump($allJobsExperienceLess2More5);
+        dump($this->getHardJobs($allJobsArray));
+
 
         die();
 
+    }
+
+
+    public function monthlyRange($allJobsArray){
+        $newArrayJobs=[];
+        foreach($allJobsArray as $obj)
+        {
+            if(!empty( $obj->hiringRange))
+            {
+                $obj->monthlyrange=(int)(((int)$obj->hiringRange->min/12)+((int)$obj->hiringRange->max/12))/2;
+                $newArrayJobs[]=$obj;
+
+            }
+
+        }
+
+
+        return $newArrayJobs;
+    }
+
+    public function getHardJobs($allJobsArray){
+        $newArrayJobs=[];
+        foreach($allJobsArray as $obj)
+        {
+            dump((int) $obj->nocandidates);
+            dump(count($obj->experiences));
+
+
+            if(count($obj->experiences)>= 3 && (int) $obj->nocandidates>= 10  )
+            {
+                $newArrayJobs[]=$obj;
+
+            }
+
+        }
+
+
+        return $newArrayJobs;
     }
 }
