@@ -14,3 +14,4 @@
 /nbproject*
 /webserver/
 /dev/*.xml
+/var/cache/

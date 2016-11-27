@@ -29,12 +29,12 @@ class DefaultController extends Controller
 
     public function testAction() {
         $fileLocator = $this->container->get('file_locator');
-        $path = $fileLocator->locate('@AppBundle/Entity/test.xml');
+        $path = $fileLocator->locate('@AppBundle/Entity/jobOffer.xml');
         $document = new \DOMDocument();
         $document->loadXML(file_get_contents($path));
 
         $xml = new \SimpleXMLElement($document->saveXML());
-        $query = '//mylist/element[my_status=2]';
+        $query = "//offers/offer[name='test']";
 
         $entries = $xml->xpath($query);
 

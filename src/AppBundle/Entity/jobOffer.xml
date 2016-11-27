@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<offers>
+    <offer>
+        <name>test</name>
+        <domain></domain>
+        <company>
+            <name></name>
+            <location></location>
+        </company>
+        <type></type>
+        <department></department>
+        <experience>
+            <noYrs></noYrs>
+            <skills></skills>
+            <title></title>
+        </experience>
+        <performance deadlines="1" conflicts="1" teamwork="1"></performance>
+    </offer>
+</offers>
