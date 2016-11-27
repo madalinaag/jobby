@@ -15,6 +15,9 @@
             <title></title>
         </experience>
         <performance deadlines="1" conflicts="1" teamwork="1"></performance>
-        <hiringRange></hiringRange>
+        <hiringRange>
+            <min></min>
+            <max></max>
+        </hiringRange>
     </offer>
 </offers>
