@@ -36,9 +36,56 @@ class DefaultController extends Controller
         $xml = new \SimpleXMLElement($document->saveXML());
         $query = "//offers/offer[name='test']";
 
-        $entries = $xml->xpath($query);
+        $queryLogin="//users/user[username='gigel' and password='123456']";
 
-        dump($entries);
+        $queryAllJobs="//offers/offer";
+
+        $queryAllJobsInDomain="//offers/offer[domain='IT']";
+
+
+        $queryAllJobsHireRange="//offers//offer/hiringRange[min>='1000' and max <='3500'] ";
+
+
+        $queryAllJobsExperience="//offers//offer//experiences/experience[noYrs>='3' and noYrs <= '5'] ";
+
+
+        $queryAllJobs5Candidates="//offers/offer[nocandidates >= '5'] ";
+
+
+
+        $allJobsArray = $xml->xpath($queryAllJobs);
+        $allJobsInDomain = $xml->xpath($queryAllJobsInDomain);
+        $allJobsInHireRange = $xml->xpath($queryAllJobsHireRange);
+        $allJobsInExperience = $xml->xpath($queryAllJobsExperience);
+        $allJobs5Candidates = $xml->xpath($queryAllJobs5Candidates);
+
+
+
+
+        $max = 0;
+        foreach($allJobsArray as $obj)
+        {
+            if( (int) $obj->nocandidates  > $max)
+            {
+                $max = (int) $obj->nocandidates ;
+            }
+        }
+
+
+
+
+
+
+        dump($allJobsArray);
+        dump($allJobsInDomain);
+        dump($allJobsInHireRange);
+        dump($allJobsInExperience);
+        dump($allJobs5Candidates);
+        dump($max);
+
         die();
+
     }
+
+
 }

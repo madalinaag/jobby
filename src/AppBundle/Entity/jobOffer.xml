@@ -1,23 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <offers>
     <offer>
-        <name>test</name>
-        <domain></domain>
+        <name>Python Developer</name>
+        <domain>IT</domain>
         <company>
-            <name></name>
-            <location></location>
+            <name>Intel</name>
+            <location>Bucharest</location>
         </company>
-        <type></type>
-        <department></department>
+        <type>Full Time</type>
+        <department>Development</department>
+        <experiences>
         <experience>
-            <noYrs></noYrs>
-            <skills></skills>
-            <title></title>
+            <noYrs>3</noYrs>
+            <skills>Python</skills>
+            <title>Mid</title>
         </experience>
+        </experiences>
         <performance deadlines="1" conflicts="1" teamwork="1"></performance>
         <hiringRange>
-            <min></min>
-            <max></max>
+            <min>1000</min>
+            <max>2000</max>
         </hiringRange>
+        <nocandidates>3</nocandidates>
+        <rejected>true</rejected>
+    </offer>
+
+
+
+    <offer>
+        <name>Android Developer</name>
+        <domain>IT</domain>
+        <company>
+            <name>Uber</name>
+            <location>Bucharest</location>
+        </company>
+        <type>Full Time</type>
+        <department>Development</department>
+    <experiences>
+        <experience>
+            <noYrs>3</noYrs>
+            <skills>Java</skills>
+            <title>Mid</title>
+        </experience>
+    </experiences>
+        <performance deadlines="1" conflicts="1" teamwork="1"></performance>
+        <hiringRange>
+            <min>1500</min>
+            <max>2500</max>
+        </hiringRange>
+        <nocandidates>10</nocandidates>
+        <rejected>false</rejected>
+
+    </offer>
+
+    <offer>
+        <name>Web Developer</name>
+        <domain>IT</domain>
+        <company>
+            <name>IBM</name>
+            <location>Bucharest</location>
+        </company>
+        <type>Part Time</type>
+        <department>Development</department>
+    <experiences>
+        <experience>
+            <noYrs>1</noYrs>
+            <skills>Java</skills>
+            <title>Junior</title>
+        </experience>
+    </experiences>
+        <performance deadlines="1" conflicts="1" teamwork="1"></performance>
+        <hiringRange>
+            <min>600</min>
+            <max>1500</max>
+        </hiringRange>
+        <nocandidates>35</nocandidates>
+        <rejected>false</rejected>
+
+    </offer>
+    <offer>
+        <name>HR Manager</name>
+        <domain>HR</domain>
+        <company>
+            <name>IBM</name>
+            <location>Bucharest</location>
+        </company>
+        <type>Full Time</type>
+        <department>HR</department>
+    <experiences>
+        <experience>
+            <noYrs>5</noYrs>
+            <skills>Comunication</skills>
+            <title>Manager</title>
+        </experience>
+    </experiences>
+        <performance deadlines="1" conflicts="1" teamwork="1"></performance>
+        <hiringRange>
+            <min>1000</min>
+            <max>1500</max>
+        </hiringRange>
+        <nocandidates>30</nocandidates>
+        <rejected>false</rejected>
+
     </offer>
 </offers>
