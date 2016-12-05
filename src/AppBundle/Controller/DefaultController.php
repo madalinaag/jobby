@@ -125,8 +125,8 @@ class DefaultController extends Controller
         $date = new \DateTime();
         $month = $date->format('m');
 
-        $countQuery = "count(//offers/offer/date[month=".$month."])";
-        $avg = (float)$xml->xpath($countQuery)/30;
+        $countQuery = "//offers/offer/date[month=".$month."])";
+        $avg = count($countQuery)/30;
 
             return $this->render('list.html.twig', [
                 'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
