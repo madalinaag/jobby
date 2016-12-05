@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <users>
     <user>
-        <name>gigel</name>
-        <username>gigel</username>
+        <name>Gigel</name>
+        <username>gigel.proposer</username>
         <password>123</password>
         <role>proposer</role>
+    </user>
+
+    <user>
+        <name>Marioara</name>
+        <username>marioara.director</username>
+        <password>123</password>
+        <role>director</role>
     </user>
 </users>
