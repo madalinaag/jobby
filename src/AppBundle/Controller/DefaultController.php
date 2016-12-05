@@ -4,6 +4,8 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 class DefaultController extends Controller
 {
     public function indexAction(Request $request)
@@ -37,15 +39,26 @@ class DefaultController extends Controller
         $hard = $this->getHardJobs($allJobsArray);
         $jobs = $this->monthlyRange($allJobsArray);
         $hardJobs = $this->monthlyRange($hard);
-//        $session = new Session();
-//        $session->start();
-//        $session->set('name', 'Drak');
+        $session = $request->getSession();
 
-        if (!empty($xmlUser->xpath($queryLogin))) {
+        $user = $xmlUser->xpath($queryLogin);
+
+        $date = new \DateTime();
+        $month = $date->format('m');
+
+        $countQuery = "count(//offers/offer/date[month=".$month."])";
+        $avg = (float)$xmlJob->xpath($countQuery)/30;
+
+        if (!empty($user)) {
+
+            $session->set('username', (string) $user[0]->username);
+            $session->set('role', (string) $user[0]->role);
+
             return $this->render('list.html.twig', [
                 'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
                 'jobs' => $jobs,
                 'hardJobs' => $hardJobs,
+                'avg' => $avg,
             ]);
         } else {
             $this->addFlash('error', 'Invalid username or password!');
@@ -61,9 +74,7 @@ class DefaultController extends Controller
         $document = new \DOMDocument();
         $document->loadXML(file_get_contents($path));
         $xml = new \SimpleXMLElement($document->saveXML());
-        $query = '';
-        $message = 'No jobs found!';
-
+        $query = "//offers/offer";
 
         if ($request->request->get('domainRadio') == 'on') {
             $domain = $request->request->get('domain');
@@ -101,14 +112,9 @@ class DefaultController extends Controller
             }
         }
 
-        if ($query) {
-            $jobs = $xml->xpath($query);
-            $jobsAll = $this->monthlyRange($jobs);
 
-        } else {
-            $jobsAll = null;
-            $message = 'No criteria selected!';
-        }
+        $jobs = $xml->xpath($query);
+        $jobsAll = $this->monthlyRange($jobs);
 
         $queryAllJobs="//offers/offer";
         $allJobsArray = $xml->xpath($queryAllJobs);
@@ -116,21 +122,18 @@ class DefaultController extends Controller
         $hard = $this->getHardJobs($allJobsArray);
         $hardJobs = $this->monthlyRange($hard);
 
-        if (!empty($jobsAll)) {
+        $date = new \DateTime();
+        $month = $date->format('m');
+
+        $countQuery = "count(//offers/offer/date[month=".$month."])";
+        $avg = (float)$xml->xpath($countQuery)/30;
+
             return $this->render('list.html.twig', [
                 'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
                 'jobs' => $jobsAll,
                 'hardJobs' => $hardJobs,
+                'avg' => $avg,
             ]);
-        }
-            $this->addFlash('error', $message);
-
-            return $this->render('list.html.twig', [
-                'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-                'jobs' => '',
-                'hardJobs' => $hardJobs,
-            ]);
-
 
     }
 
@@ -140,8 +143,37 @@ class DefaultController extends Controller
         ]);
     }
 
+    public function savePdfAction(Request $request) {
+
+        $session = $request->getSession();
+        $code = $session->get('offer');
+        $fileLocator = $this->container->get('file_locator');
+        $path = $fileLocator->locate('@AppBundle/Entity/jobOffer.xml');
+        $document = new \DOMDocument();
+        $document->loadXML(file_get_contents($path));
+        $xml = new \SimpleXMLElement($document->saveXML());
+
+        $query = "//offers/offer[code='".$code."']";
+
+        $offer = $xml->xpath($query);
+
+        $html = $this->renderView('offerSave.html.twig', ['offer'=>$offer[0]]);
+
+        $filename = sprintf('job_offer-%s.pdf', date('Y-m-d'));
+
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            200,
+            [
+                'Content-Type'        => 'application/pdf',
+                'Content-Disposition' => sprintf('attachment; filename="%s"', $filename),
+            ]
+        );
+
+    }
 
     public function addAction(Request $request) {
+        $code = $request->request->get('Code');
         $jobName = $request->request->get('JobName');
         $domain = $request->request->get('Domain');
         $department = $request->request->get('Department');
@@ -153,6 +185,10 @@ class DefaultController extends Controller
         $title = $request->request->get('Title');
         $hireRangeMin = $request->request->get('HireRangeMin');
         $hireRangeMax = $request->request->get('HireRangeMax');
+        $date = new \DateTime();
+        $month = $date->format('m');
+        $day = $date->format('d');
+        $year = $date->format('y');
 
         $fileLocator = $this->container->get('file_locator');
         $path = $fileLocator->locate('@AppBundle/Entity/jobOffer.xml');
@@ -165,9 +201,14 @@ class DefaultController extends Controller
         $company = $domMyValues->ownerDocument->createElement('company');
         $exp = $domMyValues->ownerDocument->createElement('experience');
         $range = $domMyValues->ownerDocument->createElement('hiringRange');
+        $date = $domMyValues->ownerDocument->createElement('date');
 
         $company->appendChild($domMyValues->ownerDocument->createElement('name', $companyName));
         $company->appendChild($domMyValues->ownerDocument->createElement('location', $companyLocation));
+
+        $date->appendChild($domMyValues->ownerDocument->createElement('day', $day));
+        $date->appendChild($domMyValues->ownerDocument->createElement('month', $month));
+        $date->appendChild($domMyValues->ownerDocument->createElement('year', $year));
 
         $exp->appendChild($domMyValues->ownerDocument->createElement('noYrs', $yearsOfExperience));
         $exp->appendChild($domMyValues->ownerDocument->createElement('skills', $skill));
@@ -179,6 +220,7 @@ class DefaultController extends Controller
         $range->appendChild($domMyValues->ownerDocument->createElement('min', $hireRangeMin));
         $range->appendChild($domMyValues->ownerDocument->createElement('max', $hireRangeMax));
 
+        $offer->appendChild($domMyValues->ownerDocument->createElement('code', $code));
         $offer->appendChild($domMyValues->ownerDocument->createElement('name', $jobName));
         $offer->appendChild($domMyValues->ownerDocument->createElement('domain', $domain));
         $offer->appendChild($company);
@@ -188,6 +230,7 @@ class DefaultController extends Controller
         $offer->appendChild($range);
         $offer->appendChild($domMyValues->ownerDocument->createElement('nocandidates', '0'));
         $offer->appendChild($domMyValues->ownerDocument->createElement('rejected', 'false'));
+        $offer->appendChild($date);
 
         $elements = $xml->xpath('//offers');
         $refNode = dom_import_simplexml($elements[0]->offer[0]);
@@ -201,88 +244,28 @@ class DefaultController extends Controller
 
         $offerObj = simplexml_import_dom($offer);
 
-//        $doc->save($path);
+        $session = $request->getSession();
+        $session->set('offer', $code);
+
+        $doc->save($path);
 
         return $this->render('offer.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'offer' => $offerObj,
-
         ]);
     }
 
-    public function testAction() {
-        $fileLocator = $this->container->get('file_locator');
-        $path = $fileLocator->locate('@AppBundle/Entity/jobOffer.xml');
-        $document = new \DOMDocument();
-        $document->loadXML(file_get_contents($path));
-        $xml = new \SimpleXMLElement($document->saveXML());
-
-        $query = "//offers/offer[name='test']";
-
-        $queryLogin="//users/user[username='gigel' and password='123456']";
-
-        $queryAllJobs="//offers/offer";
-
-        $queryAllJobsInDomain="//offers/offer[domain='IT']";
-
-        $queryAllJobsHireRange="//offers//offer[hiringRange[min>='1000' and max <='3500']]";
-
-        $queryAllJobsExperience="//offers//offer//experiences/experience[noYrs>='3' and noYrs <= '5'] ";
-
-        $queryAllJobsNoExperience="//offers//offer/experiences[not(experience)]";
-
-        $queryAllJobsExperienceMore2Less5="//offers//offer/experiences[count(experience) >=2 and count(experience)<=5]";
-
-        $queryAllJobsRejected="//offers//offer[rejected = true]";
-
-        $queryAllJobs5Candidates="//offers/offer[nocandidates >= '5'] ";
-
-        $allJobsArray = $xml->xpath($queryAllJobs);
-        $allJobsInDomain = $xml->xpath($queryAllJobsInDomain);
-        $allJobsInHireRange = $xml->xpath($queryAllJobsHireRange);
-        $allJobsInExperience = $xml->xpath($queryAllJobsExperience);
-        $allJobs5Candidates = $xml->xpath($queryAllJobs5Candidates);
-        $allJobsNoExperience = $xml->xpath($queryAllJobsNoExperience);
-        $allJobsRejected = $xml->xpath($queryAllJobsRejected);
-        $allJobsExperienceLess2More5 = $xml->xpath($queryAllJobsExperienceMore2Less5);
-
-        $max = 0;
-        foreach($allJobsArray as $obj)
-        {
-            if( (int) $obj->nocandidates  > $max)
-            {
-                $max = (int) $obj->nocandidates ;
-            }
-        }
-
-        dump($this->monthlyRange($allJobsArray));
-        dump($allJobsInDomain);
-        dump($allJobsInHireRange);
-        dump($allJobsInExperience);
-        dump($allJobs5Candidates);
-        dump($max);
-        dump($allJobsNoExperience);
-        dump($allJobsRejected);
-        dump($allJobsExperienceLess2More5);
-        dump($this->getHardJobs($allJobsArray));
-
-        die();
-    }
-
-
     public function monthlyRange($allJobsArray){
-        $newArrayJobs=[];
+        $newArrayJobs = [];
+
         foreach($allJobsArray as $obj)
         {
             if(!empty( $obj->hiringRange))
             {
-                $obj->monthlyrange=(int)(((int)$obj->hiringRange->min/12)+((int)$obj->hiringRange->max/12))/2;
+                $obj->monthlyrange = (int)(((int)$obj->hiringRange->min/12)+((int)$obj->hiringRange->max/12))/2;
                 $newArrayJobs[]=$obj;
-
             }
-
         }
-
 
         return $newArrayJobs;
     }
@@ -291,13 +274,13 @@ class DefaultController extends Controller
         $newArrayJobs = [];
 
         foreach ($allJobsArray as $obj) {
-
             if (count($obj->experiences->experience) >= 3 && $obj->nocandidates >= 10 ) {
                 $newArrayJobs[] = $obj;;
             }
-
         }
 
         return $newArrayJobs;
     }
+
+
 }

@@ -21,9 +21,12 @@
     {% endif %}
     <div class="panel-heading">
         <h4>Available Jobs</h4>
+        {% if app.session.get('role') == 'proposer'%}
+        <a class=" btn btn-default" href="{{ path('save') }}">Add New Job Offer</a>
+        {% endif %}
     </div>
     <div class="table-responsive">
-        <table class="table table-striped table-hover table-condensed">
+        <table class="table table-condensed">
             <thead>
             <tr>
                 <th>Name</th>
@@ -39,7 +42,11 @@
                 <tbody>
                 {% if (jobs) %}
                 {% for job in jobs %}
-                    <tr>
+                    {% if job.nocandidates > 50 %}
+                        <tr bgcolor="#90ee90">
+                    {% else %}
+                        <tr>
+                    {% endif %}
                         <td>{{ job.name }}</td>
                         <td>{{ job.domain }}</td>
                         <td>{{ job.company.name }}</td>
@@ -90,7 +97,7 @@
                 </tbody>
             </table>
             <div class="panel-heading">
-                <h5>Avg Jobs Per Day</h5>
+                <h5>Avg Jobs Per Day: {{ avg }}</h5>
             </div>
         </div>
     </div>

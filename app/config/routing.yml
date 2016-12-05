@@ -6,10 +6,18 @@ login:
     path: /login
     defaults: { _controller: AppBundle:Default:login }
 
-test:
-    path: /test
-    defaults: { _controller: AppBundle:Default:test }
-
 search:
     path: /search
     defaults: { _controller: AppBundle:Default:search }
+
+save:
+    path: /save
+    defaults: { _controller: AppBundle:Default:save }
+
+savePdf:
+    path: /savePdf
+    defaults: { _controller: AppBundle:Default:savePdf }
+
+add:
+    path: /add
+    defaults: { _controller: AppBundle:Default:add }
