@@ -46,8 +46,8 @@ class DefaultController extends Controller
         $date = new \DateTime();
         $month = $date->format('m');
 
-        $countQuery = "count(//offers/offer/date[month=".$month."])";
-        $avg = (float)$xmlJob->xpath($countQuery)/30;
+        $countQuery = "//offers/offer/date[month=".$month."])";
+        $avg = count($countQuery)/30;
 
         if (!empty($user)) {
 
