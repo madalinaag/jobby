@@ -21,19 +21,41 @@
                         </button>
                     </div>
                     <div id="navbar" class="collapse navbar-collapse">
-                        <ul class="nav navbar-nav">
-                    <form name="search" action="{{ path('search') }}">
+                        <div class="panel-heading">
+                            <h4>Jobby Search</h4>
+                        </div>
+                    <form name="search" method="post" action="{{ path('search') }}">
                         <input type="radio" name="domainRadio"> Domain </input>
                         <select name="domain">
                             <option value="IT">IT</option>
                             <option value="HR">HR</option>
                         </select>
+                        <br>
+
+                        <input type="radio" name="rangeRadio"> Hiring Range </input>
+                            <input type="number" name="minR" placeholder="min"/>
+                            <input type="number" name="maxR" placeholder="max"/>
+                        <br>
+
+                        <input type="radio" name="expRadio"> Job Experience (Years) </input>
+                        <input type="number" name="minE" placeholder="min"/>
+                        <input type="number" name="maxE" placeholder="max"/>
+                        <br>
+
+                        <input type="radio" name="otherRadio"> Other </input>
+                        <select name="other">
+                            <option value="more5">More than 5 candidates</option>
+                            <option value="more2less5">Less than 5 experience entries, but more than 2</option>
+                            <option value="noexp">No experience required </option>
+                            <option value="rej">Rejected</option>
+                        </select>
+                        <br>
+                        <br>
+
                         <button type="submit" class="btn  center-block"> Submit</button>
+                        <br>
+                        <br>
                     </form>
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li><a href=""> </a></li>
-                        </ul>
                     </div>
                 </div>
             </nav>

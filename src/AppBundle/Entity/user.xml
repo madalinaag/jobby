@@ -4,6 +4,6 @@
         <name>gigel</name>
         <username>gigel</username>
         <password>123</password>
-        <type></type>
+        <role>proposer</role>
     </user>
 </users>
